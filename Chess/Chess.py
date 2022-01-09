@@ -1,20 +1,25 @@
-#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-#Responsible for game logic.
-#I have copy and pasted a large chunk of code a couple of times... Please don't judge my poor coding.
-#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# %%
+
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Responsible for game logic.
+# I have copy and pasted a large chunk of code a couple of times... Please don't judge my poor coding.
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 import Board
 import GameLog
 import MoveGenerator
+import pygame
+
 
 class Chess():
     def __init__(self):
-        self.board = Board.Board()
+        self.board = Board.Board()  # Place in Main?
+
 
 def translate(coord):
     try:
         file = coord[0]
         rank = coord[1]
-        dict = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f':5, 'g':6, 'h':7}
+        dict = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7}
 
         rank = int(rank)
         if rank < 1 or rank > 8:
@@ -22,7 +27,7 @@ def translate(coord):
         else:
             return (dict[file], 8 - rank)
     except:
-        return None
+        return None  # String is more than two letters.
 
 
 def PvP():
@@ -30,17 +35,17 @@ def PvP():
     gamelog = GameLog.GameLog()
     gamelog.append_starting_position(chess.board.board)
     start = ""
-    end = ""
+    end = ""  # empty strings not necessary
     chess.board.print_board()
     while (True):
         start = input("Start: ")
-        ###TEMPORARY SOLUTION TO QUITTING THE GAME
+        # TEMPORARY SOLUTION TO QUITTING THE GAME
         if start == "quit":
             quit()
 
         end = input("End: ")
 
-        ###TEMPORARY SOLUTION TO QUITTING THE GAME
+        # TEMPORARY SOLUTION TO QUITTING THE GAME
         if end == "quit":
             quit()
 
@@ -50,15 +55,16 @@ def PvP():
         if start == None or end == None:
             print("Not a valid start or end entry.")
             continue
-        
+
         if (chess.board.valid_move(chess.board.board, start, end) == True):
             if (chess.board.check_self_discovery(start, end) == False):
                 chess.board.move(start, end)
                 chess.board.white_to_move = not chess.board.white_to_move
-                gamelog.update_gamelog(chess.board.board, chess.board.reset_halfmove_clock)
+                gamelog.update_gamelog(
+                    chess.board.board, chess.board.reset_halfmove_clock)
         else:
             continue
-        
+
         chess.board.print_board()
 
         if chess.board.check_for_mate():
@@ -98,18 +104,19 @@ def PvP():
                 else:
                     continue
 
-def Player_to_move(chess):
+
+def Player_to_move(chess):  # Repeating Code.
     player_moved = False
 
     while (player_moved == False):
         start = input("Start: ")
-        ###TEMPORARY SOLUTION TO QUITTING THE GAME
+        # TEMPORARY SOLUTION TO QUITTING THE GAME
         if start == "quit":
             quit()
 
         end = input("End: ")
 
-        ###TEMPORARY SOLUTION TO QUITTING THE GAME
+        # TEMPORARY SOLUTION TO QUITTING THE GAME
         if end == "quit":
             quit()
 
@@ -119,13 +126,14 @@ def Player_to_move(chess):
         if start == None or end == None:
             print("Not a valid start or end entry.")
             continue
-        
+
         if (chess.board.valid_move(chess.board.board, start, end) == True):
             if (chess.board.check_self_discovery(start, end) == False):
                 chess.board.move(start, end)
                 player_moved = True
         else:
             continue
+
 
 def Computer_to_move(chess, computer):
     computer.move(chess.board)
@@ -138,11 +146,11 @@ def PvC(player_colour):
         case 'b':
             parity = 1
 
-    chess = Chess()
+    chess = Chess()  # Seperating initiliazing clause?
     gamelog = GameLog.GameLog()
     gamelog.append_starting_position(chess.board.board)
-    
-    #Choose your fighter
+
+    # Choose your fighter
     while (True):
         ai = input("Enter name of AI you would like to challenge: ")
         if (ai in MoveGenerator.get_list_of_AI()):
@@ -160,7 +168,8 @@ def PvC(player_colour):
             parity = 0
 
         chess.board.white_to_move = not chess.board.white_to_move
-        gamelog.update_gamelog(chess.board.board, chess.board.reset_halfmove_clock)
+        gamelog.update_gamelog(
+            chess.board.board, chess.board.reset_halfmove_clock)
         chess.board.print_board()
 
         if chess.board.check_for_mate():
@@ -199,9 +208,17 @@ def PvC(player_colour):
                     quit()
                 else:
                     continue
+# set up window
+
+
 def main():
+
+    pygame.init()
+    clock = pygame.time.Clock()
+
     while (True):
-        game_type = input("Press 1 for PvP, press 2 to play against AI as white, and press 3 to play against AI as black. ")
+        game_type = input(
+            "Press 1 for PvP, press 2 to play against AI as white, and press 3 to play against AI as black. ")
         match game_type:
             case "1":
                 PvP()
@@ -210,5 +227,9 @@ def main():
             case "3":
                 PvC('b')
 
+
 if __name__ == "__main__":
+
     main()
+
+# %%
