@@ -38,23 +38,9 @@ def PvP():
     end = ""  # empty strings not necessary
     chess.board.print_board()
     while (True):
-        start = input("Start: ")
-        # TEMPORARY SOLUTION TO QUITTING THE GAME
-        if start == "quit":
-            quit()
-
-        end = input("End: ")
-
-        # TEMPORARY SOLUTION TO QUITTING THE GAME
-        if end == "quit":
-            quit()
-
-        start = translate(start)
-        end = translate(end)
-
-        if start == None or end == None:
-            print("Not a valid start or end entry.")
-            continue
+        move = chess.board.get_player_move()
+        start = move[0]
+        end = move[1]
 
         if (chess.board.valid_move(chess.board.board, start, end) == True):
             if (chess.board.check_self_discovery(start, end) == False):
@@ -109,23 +95,9 @@ def Player_to_move(chess):  # Repeating Code.
     player_moved = False
 
     while (player_moved == False):
-        start = input("Start: ")
-        # TEMPORARY SOLUTION TO QUITTING THE GAME
-        if start == "quit":
-            quit()
-
-        end = input("End: ")
-
-        # TEMPORARY SOLUTION TO QUITTING THE GAME
-        if end == "quit":
-            quit()
-
-        start = translate(start)
-        end = translate(end)
-
-        if start == None or end == None:
-            print("Not a valid start or end entry.")
-            continue
+        move = chess.board.get_player_move()
+        start = move[0]
+        end = move[1]
 
         if (chess.board.valid_move(chess.board.board, start, end) == True):
             if (chess.board.check_self_discovery(start, end) == False):

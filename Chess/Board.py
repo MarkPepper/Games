@@ -7,9 +7,12 @@ import pygame
 import Piece
 import copy
 from typing import Sized
+import math
+import MoveFinder
 
 screen = pygame.display.set_mode([800, 800])
 background_colour = (44, 44, 84)
+highlight_colour = pygame.Color(200, 0, 0, 100)
 
 
 class Square():
@@ -76,37 +79,66 @@ class Board():
         for rectangle in self.rectangles:
             rectangle.square_drawer()
 
+    def get_player_move(self):
+        move = [None, None]
+        possible_moves = []
+        clock = pygame.time.Clock()
+        while (True):
+            for event in pygame.event.get():
+                match event.type:
+                    case pygame.QUIT:
+                        pygame.quit()
+                        quit()
+                    
+                    case pygame.MOUSEBUTTONDOWN:
+                        mouse_pos = pygame.mouse.get_pos()
+                        square = (int(math.floor(mouse_pos[0]/100)), int(math.floor(mouse_pos[1]/100)))
+                        if (move[0] == None):
+                            if (self.board[square[1]][square[0]] == None):
+                                move = [None, None]
+                                possible_moves = []
+                                self.print_board()
+                                continue
+                            elif (self.board[square[1]][square[0]].is_white() != self.white_to_move):
+                                move = [None, None]
+                                possible_moves = []
+                                self.print_board()
+                                continue
+                            else:
+                                possible_moves = MoveFinder.piece_move_finder(self, square)
+                                move = [square, None]
+                                self.print_board(possible_moves + [(move[0][0], move[0][1])])
+                                continue
+                        else:
+                            if square in possible_moves:
+                                move[1] = square
+                                return move
+                            else:
+                                move = [None, None]
+                                possible_moves = []
+                                self.print_board()
+                                continue
+
+            clock.tick(60)
+
     def piece_loader(self, xpos, ypos, image):
         chess_image = pygame.image.load(image)
         screen.blit(chess_image, (xpos, ypos))
 
-    def print_board(self):
-        string = ""
+    def print_board(self, highlights = []):
         self.update_screen()
-        for i in range(0, 21):
-            string += "*"
-        print(string)
-        print(string)
         for i in range(0, 8):
-            string = "**|"
             for j in range(0, 8):
+                if (i,j) in highlights:
+                    rect = pygame.Surface((100, 100), pygame.SRCALPHA)
+                    rect.fill(highlight_colour)
+                    screen.blit(rect, (i*100, j*100))
                 if self.board[i][j] == None:
-                    string += " |"
                     continue
                 else:
-                    string = string + str(self.board[i][j]) + "|"
-
                     self.piece_loader(j*100, i*100, self.board[i][j].image)
 
         pygame.display.update()
-
-        string += "**"
-        print(string)
-        string = ""
-        for i in range(0, 21):
-            string += "*"
-        print(string)
-        print(string)
 
     def valid_move(self, board, start, end):
         # Ensures that a piece has been chosen.
