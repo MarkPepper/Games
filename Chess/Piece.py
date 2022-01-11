@@ -128,9 +128,9 @@ class King(Piece):
         self.name = "K"
         self.has_moved = has_moved
         if self.is_white() == True:
-            self.image = "Piece_Images/WK.png"
+            self.image = "Chess/Piece_Images/WK.png"
         else:
-            self.image = "Piece_Images/BK.png"
+            self.image = "Chess/Piece_Images/BK.png"
 
     def can_castle(self, board, start, end):
         if self.has_moved == False:
@@ -203,9 +203,9 @@ class Queen(Piece):
         self.value = 9
         self.name = "Q"
         if self.is_white() == True:
-            self.image = "Piece_Images/WQ.png"
+            self.image = "Chess/Piece_Images/WQ.png"
         else:
-            self.image = "Piece_Images/BQ.png"
+            self.image = "Chess/Piece_Images/BQ.png"
 
     def is_valid_move(self, board, ghost_board, start, end):
         if start == end:
@@ -221,9 +221,9 @@ class Rook(Piece):
         self.name = "R"
         self.has_moved = has_moved
         if self.is_white() == True:
-            self.image = "Piece_Images/WR.png"
+            self.image = "Chess/Piece_Images/WR.png"
         else:
-            self.image = "Piece_Images/BR.png"
+            self.image = "Chess/Piece_Images/BR.png"
 
     def is_valid_move(self, board, ghost_board, start, end):
         if start == end:
@@ -238,9 +238,9 @@ class Bishop(Piece):
         super().__init__(colour)
         self.name = "B"
         if self.is_white() == True:
-            self.image = "Piece_Images/WB.png"
+            self.image = "Chess/Piece_Images/WB.png"
         else:
-            self.image = "Piece_Images/BB.png"
+            self.image = "Chess/Piece_Images/BB.png"
 
     def is_valid_move(self, board, ghost_board, start, end):
         if start == end:
@@ -255,9 +255,9 @@ class Knight(Piece):
         super().__init__(colour)
         self.name = "N"
         if self.is_white() == True:
-            self.image = "Piece_Images/WN.png"
+            self.image = "Chess/Piece_Images/WN.png"
         else:
-            self.image = "Piece_Images/BN.png"
+            self.image = "Chess/Piece_Images/BN.png"
 
     def is_valid_move(self, board, ghost_board, start, end):
         if start == end:
@@ -273,9 +273,9 @@ class Pawn(Piece):
         self.name = "P"
         self.has_moved = has_moved
         if self.is_white() == True:
-            self.image = "Piece_Images/WP.png"
+            self.image = "Chess/Piece_Images/WP.png"
         else:
-            self.image = "Piece_Images/BP.png"
+            self.image = "Chess/Piece_Images/BP.png"
 
     def is_valid_move(self, board, ghost_board, start, end):
         if start == end:
