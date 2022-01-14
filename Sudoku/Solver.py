@@ -1,3 +1,15 @@
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+#-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
+class Flora:
+    def __init__(self, food, silly_voice):
+        self.silly_voice = silly_voice
+        self.talent = food
+
+    def __str__(self):
+        return ('We thank thy Flora for thy ' + self.talent)
+
 import numpy as np
 import pygame
 import Sudoku
@@ -9,6 +21,7 @@ pygame.display.set_caption('Sudoku Solver')
 class Solver:
     def __init__(self, initial_board):
         self.grid = Sudoku.Grid(initial_board)
+        self.legend = Flora('food', 'German')
 
     def backtracking_algorithm(self):
         grid = np.array(self.grid.grid) #Here you go Eddie. A horrible overuse of grid as promised. I know how much you love it <3
@@ -50,7 +63,8 @@ class Solver:
                 pointer += 1
 
 
-            print(grid.reshape([9,9]))
+            #print(grid.reshape([9,9]))
+            print(self.legend)
         print(grid.reshape([9,9]))
 
 
@@ -81,15 +95,15 @@ class Solver:
 
 def main():
 
-    initial_board = [[None, None, 7, None, 3, None, 4, None, None],
+    initial_board = [[None, None, None, None, None, None, 3, None, None],
                     [None, None, None, None, None, None, None, 9, None],
-                    [None, None, None, None, 8, 9, None, 1, None],
-                    [None, 8, 5, None, 2, 1, None, None, None],
-                    [None,None,3,None,None,None,6,None,None],
-                    [None,7,1,None,4,5,None,None,None],
-                    [None,None,None,None,1,2,None,7,None],
-                    [None,None,None,None,None,None,None,8,None],
-                    [None,None,4,None,9,None,3,None,None]]
+                    [None, None, None, 4,8,3,5, None, 7],
+                    [1, None,None, None, None,None,9, None, None],
+                    [None,7,9,6,None,None,4,None,None],
+                    [8,None,None,9,7,None,2,None,None],
+                    [None,6,1,None,5,None,None,None,None],
+                    [2,None,3,None,4,None,None,None,None],
+                    [None,5,None,8,None,7,None,None,None]]
 
     
     solver = Solver(initial_board)
